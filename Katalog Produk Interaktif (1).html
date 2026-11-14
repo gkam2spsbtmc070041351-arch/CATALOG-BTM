@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samsung Store BTM by Blibli — Katalog Interaktif</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#1428a0',
+              700: '#0f1f7a',
+              900: '#0a1452',
+            },
+          },
+          boxShadow: {
+            soft: '0 14px 34px -12px rgba(15, 23, 42, 0.10)',
+            card: '0 4px 20px -2px rgba(15, 23, 42, 0.05)',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.22s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col selection:bg-brand-600 selection:text-white">
+  <!-- =====================================================================
+       1. HEADER DINAMIS (HANYA IDENTITAS, MENU NAVIGASI PELANGGAN, FAVORIT)
+          Tanpa tombol / ikon / tulisan Mode Admin di bagian atas
+       ===================================================================== -->
+  <header id="appHeader" class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <!-- Brand Logo & Name -->
+        <a href="#top" class="flex items-center gap-3 min-w-0 group">
+          <div id="headerLogoWrap" class="w-10 h-10 rounded-xl overflow-hidden bg-brand-50 dark:bg-brand-900/40 border border-brand-200/70 dark:border-brand-800 flex items-center justify-center shrink-0">
+            <!-- Diisi otomatis via JS -->
+          </div>
+          <div class="min-w-0">
+            <span id="headerStoreName" class="block font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">
+              Samsung Store BTM by Blibli
+            </span>
+            <p id="headerTagline" class="text-xs text-slate-500 dark:text-slate-400 truncate hidden sm:block">
+              Authorized Samsung Partner • Mall BTM Lt. 2 Bogor
+            </p>
+          </div>
+        </a>
+
+        <!-- Menu Navigasi Dinamis (Desktop) -->
+        <nav id="headerNav" aria-label="Navigasi Utama" class="hidden lg:flex items-center gap-1">
+          <!-- Diisi via JS -->
+        </nav>
+
+        <!-- Aksi Header Pelanggan: Pencarian Mobile & Favorit -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            id="mobileSearchToggle"
+            type="button"
+            aria-label="Cari produk"
+            class="md:hidden p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+
+          <button
+            id="headerFavBtn"
+            type="button"
+            aria-label="Lihat Produk Favorit"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-rose-300 hover:text-rose-600 dark:hover:text-rose-400 transition"
+          >
+            <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            <span class="hidden sm:inline">Favorit</span>
+            <span id="headerFavCount" class="px-1.5 py-0.5 text-xs font-bold rounded-full bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Menu Navigasi Mobile -->
+      <nav id="mobileHeaderNav" aria-label="Navigasi Mobile" class="flex lg:hidden items-center gap-1.5 pb-2.5 overflow-x-auto no-scrollbar">
+        <!-- Diisi via JS -->
+      </nav>
+
+      <!-- Bar Pencarian Mobile -->
+      <div id="mobileSearchBar" class="hidden md:hidden pb-3">
+        <div class="relative">
+          <input
+            id="mobileSearchInput"
+            type="search"
+            placeholder="Cari Galaxy S24, Tab S9, Watch6, Buds..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toast / Notifikasi -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-[90] flex flex-col gap-2 max-w-sm w-[calc(100%-2.5rem)] pointer-events-none"></div>
+
+  <!-- =====================================================================
+       2. KONTEN UTAMA KATALOG PELANGGAN (BAGIAN ATAS & TENGAH)
+       ===================================================================== -->
+  <main id="top" class="flex-1">
+    <!-- Hero Banner -->
+    <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+      <div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white shadow-soft border border-slate-800">
+        <img id="heroBannerImg" alt="Hero Banner Samsung Store BTM by Blibli" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+        <div class="relative z-10 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/35 px-6 py-10 sm:px-10 sm:py-14 lg:py-16">
+          <div class="max-w-2xl space-y-4">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/15 backdrop-blur-sm border border-white/20">
+              Samsung Store BTM by Blibli • Garansi Resmi
+            </span>
+            <h1 id="heroTitle" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+              Inovasi Galaxy Terbaru di Samsung Store BTM by Blibli
+            </h1>
+            <p id="heroSubtitle" class="text-sm sm:text-base text-slate-200 leading-relaxed">
+              Jelajahi koleksi Smartphone, Tablet, Galaxy Watch, dan Accessories original dengan varian warna &amp; kapasitas lengkap, serta konsultasi dan pemesanan langsung via WhatsApp.
+            </p>
+            <div class="pt-2 flex flex-wrap items-center gap-3">
+              <a id="heroCtaBtn" href="#catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold bg-brand-600 hover:bg-brand-700 text-white shadow-lg transition">
+                <span>Jelajahi Koleksi</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </a>
+              <a
+                id="heroWaDirectBtn"
+                href="https://wa.me/6283194288684?text=Halo%20Samsung%20Store%20BTM%20by%20Blibli%2C%20saya%20ingin%20bertanya%20seputar%20produk%20Galaxy."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition"
+              >
+                <span>Tanya WhatsApp 083194288684</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Katalog Produk -->
+    <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <!-- Toolbar Pencarian, Filter Favorit, & Pengurutan -->
+      <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-card">
+        <div class="relative flex-1">
+          <input
+            id="desktopSearchInput"
+            type="search"
+            placeholder="Cari smartphone, tablet, watch, accessories, varian, atau promo..."
+            class="w-full pl-11 pr-4 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <svg class="w-4 h-4 text-slate-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button
+            id="filterFavToggle"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-rose-300 transition"
+          >
+            <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            <span>Hanya Favorit</span>
+          </button>
+
+          <select
+            id="sortSelect"
+            aria-label="Urutkan produk"
+            class="px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            <option value="featured">Urutkan: Rekomendasi</option>
+            <option value="price-asc">Harga Terendah</option>
+            <option value="price-desc">Harga Tertinggi</option>
+            <option value="rating-desc">Rating Tertinggi</option>
+            <option value="name-asc">Nama A - Z</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Bar Filter Kategori Dinamis -->
+      <div class="flex items-center justify-between gap-3">
+        <div id="categoryFilterBar" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <!-- Diisi via JS -->
+        </div>
+        <div id="resultSummary" class="hidden sm:block text-xs font-medium text-slate-500 dark:text-slate-400 shrink-0">
+          Menampilkan 0 produk
+        </div>
+      </div>
+
+      <!-- Grid Kartu Produk -->
+      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <!-- Diisi via JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyCatalogState" class="hidden text-center py-16 px-4 rounded-3xl bg-white dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700">
+        <h3 class="text-base font-bold">Produk tidak ditemukan</h3>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Coba ubah kata kunci pencarian, kategori, atau matikan filter favorit.</p>
+        <button id="resetFilterBtn" type="button" class="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700 transition">
+          Reset Filter
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         3. PANEL ADMIN (MUNCUL SAAT SANDI C070041351 BERHASIL DIVERIFIKASI)
+            Terletak di bagian bawah sebelum footer, tidak terlihat di awal
+         =================================================================== -->
+    <section id="adminPanelSection" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+      <div class="rounded-3xl border-2 border-brand-600/30 dark:border-brand-500/40 bg-white dark:bg-slate-900 shadow-soft p-5 sm:p-7 space-y-6 animate-fade-in">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-200 dark:border-slate-800">
+          <div>
+            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-800 mb-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Panel Admin Aktif • Tersimpan Otomatis di localStorage
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight">Kelola Katalog Samsung Store BTM by Blibli</h2>
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+              Ubah menu navigasi, identitas &amp; kontak toko, kategori, produk, varian, promo/freebie, gambar (Google Drive / URL / File Lokal), serta cadangan JSON.
+            </p>
+          </div>
+          <button id="adminExitBtn" type="button" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-white dark:bg-slate-700 hover:bg-slate-800 transition shrink-0">
+            Tutup Panel Admin
+          </button>
+        </div>
+
+        <!-- Tab Admin -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 border-b border-slate-100 dark:border-slate-800" role="tablist">
+          <button data-admin-tab="identity" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-brand-600 text-white">
+            1. Identitas &amp; Menu
+          </button>
+          <button data-admin-tab="categories" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+            2. Kategori
+          </button>
+          <button data-admin-tab="products" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+            3. Produk &amp; Gambar
+          </button>
+          <button data-admin-tab="media" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+            4. Logo &amp; Banner
+          </button>
+          <button data-admin-tab="backup" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+            5. Cadangan JSON
+          </button>
+        </div>
+
+        <!-- Panduan Sumber Gambar Universal -->
+        <div class="p-4 rounded-2xl bg-brand-50/70 dark:bg-brand-900/20 border border-brand-200/70 dark:border-brand-800/60 space-y-1.5">
+          <h3 class="text-xs sm:text-sm font-bold text-brand-900 dark:text-brand-200">
+            Pemuat Gambar Universal: Google Drive, Tautan Langsung, &amp; File Lokal
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            Mendukung tautan Google Drive (<code class="px-1 py-0.5 rounded bg-white dark:bg-slate-900">/file/d/ID/view</code>, <code class="px-1 py-0.5 rounded bg-white dark:bg-slate-900">open?id=ID</code>, <code class="px-1 py-0.5 rounded bg-white dark:bg-slate-900">uc?id=ID</code>, <code class="px-1 py-0.5 rounded bg-white dark:bg-slate-900">lh3.googleusercontent.com/d/ID</code>, atau ID file langsung), URL HTTPS/HTTP bebas, unggahan file lokal (Data URL), dan fallback SVG otomatis. Pastikan file Google Drive dibagikan ke <strong>"Siapa saja yang memiliki link"</strong>.
+          </p>
+        </div>
+
+        <!-- TAB 1: IDENTITAS & MENU -->
+        <div id="adminTab-identity" class="admin-tab-panel space-y-6 animate-fade-in">
+          <form id="identityForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Nama Toko</label>
+              <input id="idStoreName" type="text" required class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Tagline</label>
+              <input id="idTagline" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Nomor WhatsApp (Format 62...)</label>
+              <input id="idWhatsappPhone" type="text" required class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Jam Buka</label>
+              <input id="idOpeningHours" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Teks Tombol CTA Hero</label>
+              <input id="idHeroCtaText" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Tautan Google Maps</label>
+              <input id="idMapsUrl" type="url" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div class="md:col-span-2 lg:col-span-3">
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Judul Hero Banner</label>
+              <input id="idHeroTitle" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div class="md:col-span-2 lg:col-span-3">
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Subjudul Hero Banner</label>
+              <textarea id="idHeroSubtitle" rows="2" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"></textarea>
+            </div>
+            <div class="md:col-span-2 lg:col-span-3">
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Alamat Lengkap Toko</label>
+              <input id="idAddress" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Link Instagram</label>
+              <input id="idInstagramUrl" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Link TikTok</label>
+              <input id="idTiktokUrl" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Link Threads</label>
+              <input id="idThreadsUrl" type="text" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            </div>
+            <div class="md:col-span-2 lg:col-span-3 flex justify-end">
+              <button type="submit" class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-brand-600 hover:bg-brand-700 text-white transition">
+                Simpan Identitas &amp; Kontak
+              </button>
+            </div>
+          </form>
+
+          <!-- Kelola Menu Navigasi -->
+          <div class="pt-6 border-t border-slate-200 dark:border-slate-800">
+            <h3 class="text-base font-bold mb-3">Kelola Menu Navigasi</h3>
+            <form id="navAddForm" class="grid grid-cols-1 sm:grid-cols-12 gap-3 mb-4">
+              <input id="newNavLabel" type="text" placeholder="Label Menu (mis. Promo Galaxy)" required class="sm:col-span-5 px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+              <input id="newNavTarget" type="text" placeholder="Target (#catalog, #hero, #footer, atau URL)" required class="sm:col-span-5 px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+              <button type="submit" class="sm:col-span-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition">
+                + Tambah
+              </button>
+            </form>
+            <div id="adminNavList" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- TAB 2: KATEGORI -->
+        <div id="adminTab-categories" class="admin-tab-panel hidden space-y-5 animate-fade-in">
+          <form id="categoryAddForm" class="flex flex-col sm:flex-row gap-3">
+            <input id="newCategoryName" type="text" placeholder="Nama kategori baru (mis. BUDS)" required class="flex-1 px-4 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />
+            <button type="submit" class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-brand-600 hover:bg-brand-700 text-white transition">
+              + Tambah Kategori
+            </button>
+          </form>
+          <div id="adminCategoryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+        </div>
+
+        <!-- TAB 3: PRODUK & GAMBAR -->
+        <div id="adminTab-products" class="admin-tab-panel hidden space-y-8 animate-fade-in">
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+              <h3 id="productFormTitle" class="text-base font-bold">Tambah Produk Baru</h3>
+              <button id="cancelEditProductBtn" type="button" class="hidden text-xs font-semibold text-rose-600 hover:underline">
+                Batal Edit
+              </button>
+            </div>
+            <form id="productForm" class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+              <input type="hidden" id="prodId" />
+              <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Nama Produk *</label>
+                  <input id="prodName" type="text" required placeholder="Contoh: Samsung Galaxy S25 Ultra" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Kategori *</label>
+                  <select id="prodCategory" required class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"></select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Badge Label</label>
+                  <input id="prodBadge" type="text" placeholder="Contoh: Baru, Flagship, Promo" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Harga (Rp) *</label>
+                  <input id="prodPrice" type="number" min="0" step="100" required placeholder="19999000" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Harga Coret (Rp, opsional)</label>
+                  <input id="prodOriginalPrice" type="number" min="0" step="100" placeholder="21999000" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Stok</label>
+                  <input id="prodStock" type="number" min="0" value="15" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Rating (1.0 - 5.0)</label>
+                  <input id="prodRating" type="number" min="1" max="5" step="0.1" value="4.9" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Varian Warna / ROM (pisahkan dengan koma)</label>
+                  <input id="prodVariants" type="text" placeholder="Contoh: 12/256GB Titanium Black, 12/512GB Titanium Gray" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Promo / Freebie (opsional)</label>
+                  <input id="prodPromo" type="text" placeholder="Contoh: Gratis Travel Adapter 25W + Samsung Care+ 1 Tahun" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Deskripsi Produk</label>
+                  <textarea id="prodDesc" rows="2" placeholder="Deskripsi singkat produk..." class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"></textarea>
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Spesifikasi (1 baris = 1 poin)</label>
+                  <textarea id="prodSpecs" rows="3" placeholder="Layar: 6.8 Dynamic AMOLED 2X 120Hz&#10;Garansi Resmi Samsung Indonesia" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"></textarea>
+                </div>
+              </div>
+
+              <!-- Kolom Gambar Produk -->
+              <div class="lg:col-span-5 flex flex-col justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <div class="space-y-3">
+                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200">
+                    Gambar Produk (Google Drive / URL / File Lokal)
+                  </label>
+                  <input
+                    id="prodImageUrl"
+                    type="text"
+                    placeholder="Link Google Drive, URL gambar, atau Data URL..."
+                    class="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                  />
+                  <div class="flex flex-wrap items-center gap-2">
+                    <label class="cursor-pointer inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                      Unggah File Lokal
+                      <input id="prodImageFile" type="file" accept="image/*" class="hidden" />
+                    </label>
+                    <button id="prodTestImageBtn" type="button" class="px-3 py-2 rounded-xl text-xs font-semibold bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300 border border-brand-200/70 dark:border-brand-800 transition">
+                      Uji Gambar
+                    </button>
+                  </div>
+                  <div class="aspect-[4/3] w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                    <img id="prodImagePreview" alt="Pratinjau Produk" class="w-full h-full object-cover" />
+                  </div>
+                  <div id="prodImageStatus" class="text-xs text-slate-500 dark:text-slate-400 break-all">
+                    Siap memuat gambar atau menggunakan SVG placeholder lokal.
+                  </div>
+                </div>
+                <button id="productSubmitBtn" type="submit" class="w-full py-3 rounded-xl text-sm font-semibold bg-brand-600 hover:bg-brand-700 text-white transition">
+                  Simpan Produk
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <h3 class="text-base font-bold mb-3">Daftar Produk (<span id="adminProductCount">0</span>)</h3>
+            <div id="adminProductList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+        </div>
+
+        <!-- TAB 4: LOGO & BANNER -->
+        <div id="adminTab-media" class="admin-tab-panel hidden space-y-6 animate-fade-in">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
+              <h3 class="text-base font-bold">Logo Toko (Header)</h3>
+              <input id="mediaLogoUrl" type="text" placeholder="Link Google Drive / URL Logo..." class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+              <div class="flex flex-wrap items-center gap-2">
+                <label class="cursor-pointer px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                  Unggah File Logo
+                  <input id="mediaLogoFile" type="file" accept="image/*" class="hidden" />
+                </label>
+                <button id="mediaLogoApplyBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-600 text-white">
+                  Terapkan Logo
+                </button>
+              </div>
+              <div class="h-28 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center p-3 overflow-hidden">
+                <img id="mediaLogoPreview" alt="Pratinjau Logo" class="max-h-full max-w-full object-contain rounded-lg" />
+              </div>
+              <div id="mediaLogoStatus" class="text-xs text-slate-500 break-all"></div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
+              <h3 class="text-base font-bold">Gambar Hero Banner</h3>
+              <input id="mediaHeroUrl" type="text" placeholder="Link Google Drive / URL Banner..." class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700" />
+              <div class="flex flex-wrap items-center gap-2">
+                <label class="cursor-pointer px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                  Unggah File Banner
+                  <input id="mediaHeroFile" type="file" accept="image/*" class="hidden" />
+                </label>
+                <button id="mediaHeroApplyBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-600 text-white">
+                  Terapkan Banner
+                </button>
+              </div>
+              <div class="h-28 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden">
+                <img id="mediaHeroPreview" alt="Pratinjau Banner" class="w-full h-full object-cover" />
+              </div>
+              <div id="mediaHeroStatus" class="text-xs text-slate-500 break-all"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: CADANGAN JSON -->
+        <div id="adminTab-backup" class="admin-tab-panel hidden space-y-4 animate-fade-in">
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-4">
+            <h3 class="text-base font-bold">Ekspor, Impor, &amp; Reset Data Katalog</h3>
+            <div class="flex flex-wrap items-center gap-3">
+              <button id="exportJsonBtn" type="button" class="px-4 py-2.5 rounded-xl text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition">
+                Ekspor JSON
+              </button>
+              <label class="cursor-pointer px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-600 hover:bg-brand-700 text-white transition">
+                Impor JSON
+                <input id="importJsonInput" type="file" accept=".json,application/json" class="hidden" />
+              </label>
+              <button id="resetDefaultBtn" type="button" class="px-4 py-2.5 rounded-xl text-sm font-semibold bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 border border-rose-200 dark:border-rose-800 transition">
+                Reset ke Data Bawaan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       4. FOOTER PALING BAWAH (IDENTITAS TOKO + AKSES ADMIN DI PALING BAWAH)
+       ===================================================================== -->
+  <footer id="footer" class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="space-y-2 md:col-span-2">
+          <div id="footerStoreName" class="font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+            Samsung Store BTM by Blibli
+          </div>
+          <p id="footerAddress" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Mall BTM Lantai 2, Jl. Ir. H. Juanda No. 68, Paledang, Bogor Tengah, Kota Bogor, Jawa Barat 16122
+          </p>
+          <p id="footerHoursWa" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            Jam Buka: 09:00 - 21:00 WIB • WhatsApp: 083194288684
+          </p>
+          <div class="pt-1 flex flex-wrap items-center gap-3 text-xs font-semibold">
+            <a
+              id="footerMapsLink"
+              href="https://maps.app.goo.gl/87ePVG4vyuGP6phL9?g_st=ac"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300 hover:underline"
+            >
+              <span>Google Maps</span>
+            </a>
+            <a id="footerIgLink" href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-brand-600">
+              Instagram
+            </a>
+            <a id="footerTiktokLink" href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-brand-600">
+              TikTok
+            </a>
+            <a id="footerThreadsLink" href="https://threads.net" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-brand-600">
+              Threads
+            </a>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-between md:items-end gap-3">
+          <a
+            id="footerWaBtn"
+            href="https://wa.me/6283194288684?text=Halo%20Samsung%20Store%20BTM%20by%20Blibli"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition"
+          >
+            <span>Chat WhatsApp (083194288684)</span>
+          </a>
+          <span class="text-xs text-slate-400">© <span id="footerYear">2026</span> Samsung Store BTM by Blibli</span>
+        </div>
+      </div>
+
+      <!-- Baris Paling Bawah Footer: Pemicu Akses Mode Admin yang Rapi & Jelas -->
+      <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-3">
+        <span class="text-[11px] text-slate-400">Katalog Produk Resmi</span>
+        <button
+          id="footerAdminTrigger"
+          type="button"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 transition"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          <span id="footerAdminTriggerLabel">Akses Admin</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       5. MODAL DETAIL PRODUK (PEMESANAN LANGSUNG VIA WHATSAPP 083194288684)
+       ===================================================================== -->
+  <div id="productModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-fade-in">
+      <div class="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-100 dark:border-slate-800">
+        <span id="modalProdCategory" class="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">Kategori</span>
+        <button id="closeProductModalBtn" type="button" aria-label="Tutup detail produk" class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+          <div class="aspect-square rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 relative">
+            <img id="modalProdImage" alt="Detail Produk" class="w-full h-full object-cover" />
+            <span id="modalProdBadge" class="hidden absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold bg-brand-600 text-white shadow"></span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
+            <span id="modalProdRating">★ 4.9</span>
+            <span id="modalProdStock">Stok: 15</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <h3 id="modalProdTitle" class="text-xl sm:text-2xl font-bold leading-snug">Nama Produk</h3>
+            <div class="flex items-baseline gap-2.5">
+              <span id="modalProdPrice" class="text-2xl font-extrabold text-brand-600 dark:text-brand-400">Rp 0</span>
+              <span id="modalProdOriginalPrice" class="text-sm line-through text-slate-400 hidden">Rp 0</span>
+            </div>
+            <div id="modalProdPromo" class="hidden px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-800"></div>
+            <p id="modalProdDesc" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+
+            <!-- Pemilih Varian -->
+            <div class="space-y-2 pt-1">
+              <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400">Pilih Varian</label>
+              <div id="modalVariantList" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Spesifikasi -->
+            <div class="pt-2">
+              <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Spesifikasi</h4>
+              <ul id="modalProdSpecs" class="space-y-1.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 list-disc list-inside"></ul>
+            </div>
+          </div>
+
+          <div class="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Jumlah Unit</span>
+              <div class="inline-flex items-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+                <button id="modalQtyMinus" type="button" class="px-3 py-1.5 text-sm font-bold hover:text-brand-600">−</button>
+                <span id="modalQtyValue" class="px-3 py-1.5 text-sm font-semibold">1</span>
+                <button id="modalQtyPlus" type="button" class="px-3 py-1.5 text-sm font-bold hover:text-brand-600">+</button>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <button
+                id="modalFavBtn"
+                type="button"
+                aria-label="Simpan ke Favorit"
+                class="p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-rose-300 transition"
+              >
+                <svg id="modalFavIcon" class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+              </button>
+              <a
+                id="modalOrderWaBtn"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition text-center"
+              >
+                Pesan Langsung via WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       6. MODAL LOGIN MODE ADMIN (SANDI: C070041351)
+       ===================================================================== -->
+  <div id="adminLoginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-fade-in">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-bold">Akses Mode Admin</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Masukkan sandi untuk membuka panel pengelolaan katalog.</p>
+        </div>
+        <button id="closeAdminLoginBtn" type="button" aria-label="Tutup modal login" class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="adminLoginForm" class="space-y-4">
+        <div>
+          <label for="adminPasswordInput" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Sandi Admin</label>
+          <input
+            id="adminPasswordInput"
+            type="password"
+            required
+            autocomplete="current-password"
+            placeholder="Masukkan sandi admin..."
+            class="w-full px-4 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <p id="adminLoginError" class="hidden text-xs text-rose-600 mt-1.5 font-medium">Sandi salah. Silakan coba lagi.</p>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl text-sm font-semibold bg-brand-600 hover:bg-brand-700 text-white transition">
+          Buka Panel Admin
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       7. SCRIPT UTAMA KATALOG & PANEL ADMIN
+       ===================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      const STORAGE_KEY = 'samsung_store_btm_catalog_v2';
+      const FAV_KEY = 'samsung_store_btm_favorites_v2';
+      const ADMIN_SESSION_KEY = 'samsung_store_btm_admin_v2';
+      const ADMIN_PASSCODE = 'C070041351';
+
+      /* -------------------------------------------------------------------
+         PEMUAT GAMBAR UNIVERSAL (GOOGLE DRIVE / URL LANGSUNG / FILE LOKAL / SVG)
+         ------------------------------------------------------------------- */
+      function createSvgFallbackDataUrl(label = 'Samsung Store BTM') {
+        const safeLabel = String(label || 'Samsung Store BTM')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .slice(0, 30);
+
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+            <defs>
+              <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#eff6ff"/>
+                <stop offset="100%" stop-color="#dbeafe"/>
+              </linearGradient>
+            </defs>
+            <rect width="800" height="600" rx="32" fill="url(#bg)"/>
+            <g transform="translate(328, 180)" fill="none" stroke="#1428a0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="12" y="24" width="120" height="96" rx="16"/>
+              <circle cx="48" cy="58" r="10"/>
+              <path d="M18 106 L52 74 L78 96 L102 68 L126 106"/>
+            </g>
+            <text x="400" y="365" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" fill="#1428a0">${safeLabel}</text>
+            <text x="400" y="402" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="500" fill="#475569">Samsung Store BTM by Blibli</text>
+          </svg>
+        `.trim();
+        return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+      }
+
+      function extractGoogleDriveFileId(input) {
+        if (!input || typeof input !== 'string') return null;
+        const trimmed = input.trim();
+
+        const fileMatch = trimmed.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]{15,80})/i);
+        if (fileMatch && fileMatch[1]) return fileMatch[1];
+
+        const queryMatch = trimmed.match(/[?&]id=([a-zA-Z0-9_-]{15,80})/i);
+        if (queryMatch && queryMatch[1]) return queryMatch[1];
+
+        const lh3Match = trimmed.match(/lh3\.googleusercontent\.com\/d\/([a-zA-Z0-9_-]{15,80})/i);
+        if (lh3Match && lh3Match[1]) return lh3Match[1];
+
+        if (/^[a-zA-Z0-9_-]{25,65}$/.test(trimmed) && !/^https?:\/\//i.test(trimmed)) {
+          return trimmed;
+        }
+        return null;
+      }
+
+      function resolveImageUrl(rawUrl, fallbackLabel = 'Samsung Store BTM') {
+        const fallbackSvg = createSvgFallbackDataUrl(fallbackLabel);
+        const trimmed = (rawUrl || '').trim();
+
+        if (!trimmed) {
+          return { primary: fallbackSvg, candidates: [fallbackSvg], sourceType: 'fallback-svg', driveId: null };
+        }
+        if (trimmed.startsWith('data:image/') || trimmed.startsWith('blob:')) {
+          return { primary: trimmed, candidates: [trimmed, fallbackSvg], sourceType: 'local-data', driveId: null };
+        }
+        const driveId = extractGoogleDriveFileId(trimmed);
+        if (driveId) {
+          const candidates = [
+            `https://lh3.googleusercontent.com/d/${driveId}`,
+            `https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`,
+            `https://drive.google.com/uc?export=view&id=${driveId}`,
+            `https://drive.google.com/uc?id=${driveId}`,
+            fallbackSvg,
+          ];
+          return { primary: candidates[0], candidates, sourceType: 'google-drive', driveId };
+        }
+        return {
+          primary: trimmed,
+          candidates: [trimmed, fallbackSvg],
+          sourceType: /^https?:\/\//i.test(trimmed) ? 'direct-url' : 'relative-url',
+          driveId: null,
+        };
+      }
+
+      function applyUniversalImage(imgElement, rawUrl, fallbackLabel = 'Samsung Store BTM', onStatusChange = null) {
+        if (!imgElement) return;
+        const resolved = resolveImageUrl(rawUrl, fallbackLabel);
+        let idx = 0;
+
+        const tryLoad = (index) => {
+          if (index >= resolved.candidates.length) return;
+          const nextUrl = resolved.candidates[index];
+          imgElement.src = nextUrl;
+          if (typeof onStatusChange === 'function') {
+            onStatusChange({
+              sourceType: resolved.sourceType,
+              driveId: resolved.driveId,
+              attemptIndex: index,
+              totalCandidates: resolved.candidates.length,
+              currentUrl: nextUrl,
+              isFallback: nextUrl.startsWith('data:image/svg+xml'),
+            });
+          }
+        };
+
+        imgElement.onerror = function () {
+          idx += 1;
+          if (idx < resolved.candidates.length) {
+            tryLoad(idx);
+          }
+        };
+
+        tryLoad(0);
+      }
+
+      /* -------------------------------------------------------------------
+         DATA BAWAAN SAMSUNG STORE BTM BY BLIBLI
+         ------------------------------------------------------------------- */
+      function getDefaultState() {
+        return {
+          identity: {
+            storeName: 'Samsung Store BTM by Blibli',
+            tagline: 'Authorized Samsung Partner • Mall BTM Lt. 2 Bogor',
+            heroTitle: 'Inovasi Galaxy Terbaru di Samsung Store BTM by Blibli',
+            heroSubtitle: 'Jelajahi koleksi Smartphone, Tablet, Galaxy Watch, dan Accessories original bergaransi resmi dengan pemesanan langsung via WhatsApp.',
+            heroCtaText: 'Jelajahi Koleksi',
+            whatsappPhone: '6283194288684',
+            openingHours: '09:00 - 21:00 WIB',
+            address: 'Mall BTM Lantai 2, Jl. Ir. H. Juanda No. 68, Paledang, Bogor Tengah, Kota Bogor, Jawa Barat 16122',
+            mapsUrl: 'https://maps.app.goo.gl/87ePVG4vyuGP6phL9?g_st=ac',
+            instagramUrl: 'https://instagram.com',
+            tiktokUrl: 'https://tiktok.com',
+            threadsUrl: 'https://threads.net',
+            logoUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=240&q=80',
+            heroBannerUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1400&q=80',
+          },
+          navItems: [
+            { id: 'nav-1', label: 'Beranda', target: '#hero' },
+            { id: 'nav-2', label: 'Koleksi Galaxy', target: '#catalog' },
+            { id: 'nav-3', label: 'Lokasi & Kontak', target: '#footer' },
+          ],
+          categories: [
+            { id: 'cat-smartphone', name: 'SMARTPHONE' },
+            { id: 'cat-tablet', name: 'TABLET' },
+            { id: 'cat-watch', name: 'WATCH' },
+            { id: 'cat-accessories', name: 'ACCESSORIES' },
+          ],
+          products: [
+            {
+              id: 'prod-s24-ultra',
+              name: 'Samsung Galaxy S24 Ultra',
+              categoryId: 'cat-smartphone',
+              price: 21999000,
+              originalPrice: 23999000,
+              stock: 15,
+              rating: 4.9,
+              badge: 'Flagship',
+              promo: 'Gratis Samsung Care+ 1 Tahun & Travel Adapter 25W',
+              variants: ['12/256GB Titanium Gray', '12/512GB Titanium Black', '12/1TB Titanium Violet'],
+              description: 'Smartphone Galaxy AI dengan S Pen terintegrasi, rangka Titanium, dan kamera 200MP ProVisual Engine.',
+              specs: ['Layar: 6.8" Dynamic AMOLED 2X 120Hz', 'Prosesor: Snapdragon 8 Gen 3 for Galaxy', 'Kamera: 200MP + 50MP + 12MP + 10MP', 'Garansi Resmi Samsung Indonesia'],
+              imageUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80',
+            },
+            {
+              id: 'prod-a55-5g',
+              name: 'Samsung Galaxy A55 5G',
+              categoryId: 'cat-smartphone',
+              price: 5999000,
+              originalPrice: 6499000,
+              stock: 25,
+              rating: 4.8,
+              badge: 'Terlaris',
+              promo: 'Promo Trade-In & Cicilan 0% di Samsung Store BTM',
+              variants: ['8/128GB Awesome Iceblue', '8/256GB Awesome Navy', '12/256GB Awesome Lilac'],
+              description: 'Desain metal frame premium dengan kamera Nightography 50MP OIS dan keamanan Samsung Knox Vault.',
+              specs: ['Layar: 6.6" Super AMOLED FHD+ 120Hz', 'Kamera Utama: 50MP OIS + 12MP Ultra-Wide', 'Baterai: 5.000 mAh 25W Super Fast Charging', 'Garansi Resmi Samsung Indonesia'],
+              imageUrl: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80',
+            },
+            {
+              id: 'prod-tab-s9-fe',
+              name: 'Samsung Galaxy Tab S9 FE',
+              categoryId: 'cat-tablet',
+              price: 7499000,
+              originalPrice: 7999000,
+              stock: 12,
+              rating: 4.8,
+              badge: 'S Pen Included',
+              promo: 'Termasuk S Pen Original dalam kotak',
+              variants: ['6/128GB Wi-Fi Gray', '8/256GB Wi-Fi Mint'],
+              description: 'Tablet serbaguna dengan ketahanan IP68, layar mulus 90Hz, dan S Pen responsif untuk belajar maupun produktivitas.',
+              specs: ['Layar: 10.9" 90Hz', 'Ketahanan: IP68 Tablet & S Pen', 'Baterai: 8.000 mAh 45W Fast Charging', 'Garansi Resmi Samsung Indonesia'],
+              imageUrl: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80',
+            },
+            {
+              id: 'prod-watch6',
+              name: 'Samsung Galaxy Watch6',
+              categoryId: 'cat-watch',
+              price: 3999000,
+              originalPrice: 4499000,
+              stock: 18,
+              rating: 4.9,
+              badge: 'Health Tracker',
+              promo: 'Bundling spesial dengan seri Galaxy S / Galaxy A',
+              variants: ['40mm Graphite', '44mm Silver'],
+              description: 'Smartwatch dengan pemantauan tidur menyeluruh, zona detak jantung personal, dan kaca Sapphire Crystal.',
+              specs: ['Kaca: Sapphire Crystal', 'Sensor: BioActive Sensor, Sleep Coaching', 'Ketahanan: 5ATM + IP68 + MIL-STD-810H', 'Garansi Resmi Samsung Indonesia'],
+              imageUrl: 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80',
+            },
+            {
+              id: 'prod-buds2-pro',
+              name: 'Samsung Galaxy Buds2 Pro',
+              categoryId: 'cat-accessories',
+              price: 2799000,
+              originalPrice: 3299000,
+              stock: 20,
+              rating: 4.9,
+              badge: 'Hi-Fi Audio',
+              promo: '24-bit Hi-Fi Audio & Intelligent ANC',
+              variants: ['Graphite', 'White', 'Bora Purple'],
+              description: 'Earbuds nirkabel dengan 24-bit Hi-Fi Audio, Intelligent ANC, dan 360 Audio ergonomis.',
+              specs: ['Audio: 24-bit Hi-Fi Sound', 'Noise Control: Intelligent ANC', 'Ketahanan: IPX7', 'Garansi Resmi Samsung Indonesia'],
+              imageUrl: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80',
+            },
+            {
+              id: 'prod-adapter-45w',
+              name: 'Samsung 45W Power Adapter + Cable',
+              categoryId: 'cat-accessories',
+              price: 649000,
+              originalPrice: 749000,
+              stock: 40,
+              rating: 4.8,
+              badge: 'Original',
+              promo: 'Super Fast Charging 2.0 Original Samsung',
+              variants: ['45W + Kabel USB-C 5A', '25W + Kabel USB-C'],
+              description: 'Adaptor pengisian daya cepat original Samsung dengan perlindungan arus berlebih.',
+              specs: ['Output: Super Fast Charging 2.0', 'Port: USB Type-C', 'Garansi Resmi Samsung Indonesia'],
+              imageUrl: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80',
+            },
+          ],
+        };
+      }
+
+      /* -------------------------------------------------------------------
+         STATE & LOCALSTORAGE
+         ------------------------------------------------------------------- */
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return getDefaultState();
+          const parsed = JSON.parse(raw);
+          const def = getDefaultState();
+          return {
+            identity: { ...def.identity, ...(parsed.identity || {}) },
+            navItems: Array.isArray(parsed.navItems) && parsed.navItems.length ? parsed.navItems : def.navItems,
+            categories: Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : def.categories,
+            products: Array.isArray(parsed.products) ? parsed.products : def.products,
+          };
+        } catch {
+          return getDefaultState();
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch {
+          showToast('Penyimpanan penuh. Gunakan link Google Drive atau URL gambar.', 'error');
+        }
+      }
+
+      function loadFavorites() {
+        try {
+          const raw = localStorage.getItem(FAV_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveFavorites() {
+        try {
+          localStorage.setItem(FAV_KEY, JSON.stringify(favorites));
+        } catch {
+          // Abaikan error kuota
+        }
+      }
+
+      let state = loadState();
+      let favorites = loadFavorites();
+      let isAdmin = sessionStorage.getItem(ADMIN_SESSION_KEY) === '1';
+
+      let activeCategory = 'all';
+      let onlyFavorites = false;
+      let searchQuery = '';
+      let sortBy = 'featured';
+      let modalProductId = null;
+      let modalSelectedVariant = '';
+      let modalQty = 1;
+
+      function formatRupiah(amount) {
+        return 'Rp ' + (Number(amount) || 0).toLocaleString('id-ID');
+      }
+
+      function uid(prefix = 'id') {
+        return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+      }
+
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const el = document.createElement('div');
+        const colors =
+          type === 'error'
+            ? 'bg-rose-600 text-white'
+            : type === 'success'
+            ? 'bg-emerald-600 text-white'
+            : 'bg-slate-900 text-white dark:bg-slate-800 dark:text-slate-100 border border-slate-700';
+        el.className = `pointer-events-auto px-4 py-3 rounded-2xl text-xs sm:text-sm font-medium shadow-xl animate-fade-in ${colors}`;
+        el.textContent = message;
+        container.appendChild(el);
+        setTimeout(() => {
+          el.style.opacity = '0';
+          el.style.transition = 'opacity 0.25s ease';
+          setTimeout(() => el.remove(), 260);
+        }, 2600);
+      }
+
+      function buildWhatsAppOrderUrl(product, variant, qty) {
+        const phone = (state.identity.whatsappPhone || '6283194288684').replace(/\D/g, '') || '6283194288684';
+        const totalPrice = (Number(product.price) || 0) * (Number(qty) || 1);
+        const lines = [
+          `Halo *${state.identity.storeName}*, saya tertarik memesan:`,
+          `• Produk: *${product.name}*`,
+          `• Varian: ${variant || 'Standar'}`,
+          `• Jumlah: ${qty} unit`,
+          `• Harga Satuan: ${formatRupiah(product.price)}`,
+          `• Estimasi Total: *${formatRupiah(totalPrice)}*`,
+        ];
+        if (product.promo) {
+          lines.push(`• Info Promo: ${product.promo}`);
+        }
+        lines.push('', `Mohon info ketersediaan stok di ${state.identity.address || 'Mall BTM Lantai 2 Bogor'}.`);
+        return `https://wa.me/${phone}?text=${encodeURIComponent(lines.join('\n'))}`;
+      }
+
+      /* -------------------------------------------------------------------
+         RENDER HEADER, HERO, FOOTER & ADMIN
+         ------------------------------------------------------------------- */
+      function renderIdentityAndHeader() {
+        const { identity, navItems } = state;
+        document.title = `${identity.storeName} — Katalog Interaktif`;
+
+        document.getElementById('headerStoreName').textContent = identity.storeName;
+        document.getElementById('headerTagline').textContent = identity.tagline || '';
+
+        document.getElementById('footerStoreName').textContent = identity.storeName;
+        document.getElementById('footerAddress').textContent = identity.address || '';
+        document.getElementById('footerHoursWa').textContent = `Jam Buka: ${identity.openingHours || '09:00 - 21:00 WIB'} • WhatsApp: ${identity.whatsappPhone || '6283194288684'}`;
+        document.getElementById('footerYear').textContent = String(new Date().getFullYear());
+
+        document.getElementById('footerMapsLink').href = identity.mapsUrl || 'https://maps.app.goo.gl/87ePVG4vyuGP6phL9?g_st=ac';
+        document.getElementById('footerIgLink').href = identity.instagramUrl || 'https://instagram.com';
+        document.getElementById('footerTiktokLink').href = identity.tiktokUrl || 'https://tiktok.com';
+        document.getElementById('footerThreadsLink').href = identity.threadsUrl || 'https://threads.net';
+
+        const cleanWa = (identity.whatsappPhone || '6283194288684').replace(/\D/g, '') || '6283194288684';
+        document.getElementById('footerWaBtn').href = `https://wa.me/${cleanWa}?text=${encodeURIComponent(`Halo ${identity.storeName}, saya ingin bertanya seputar produk Galaxy.`)}`;
+        document.getElementById('footerWaBtn').querySelector('span').textContent = `Chat WhatsApp (${identity.whatsappPhone || '083194288684'})`;
+        document.getElementById('heroWaDirectBtn').href = `https://wa.me/${cleanWa}?text=${encodeURIComponent(`Halo ${identity.storeName}, saya ingin bertanya seputar produk Galaxy.`)}`;
+        document.getElementById('heroWaDirectBtn').querySelector('span').textContent = `Tanya WhatsApp ${identity.whatsappPhone || '083194288684'}`;
+
+        // Logo Toko
+        const logoWrap = document.getElementById('headerLogoWrap');
+        logoWrap.innerHTML = '';
+        const logoImg = document.createElement('img');
+        logoImg.alt = identity.storeName;
+        logoImg.className = 'w-full h-full object-cover';
+        applyUniversalImage(logoImg, identity.logoUrl, identity.storeName);
+        logoWrap.appendChild(logoImg);
+
+        // Hero Banner
+        document.getElementById('heroTitle').textContent = identity.heroTitle;
+        document.getElementById('heroSubtitle').textContent = identity.heroSubtitle;
+        document.getElementById('heroCtaBtn').querySelector('span').textContent = identity.heroCtaText || 'Jelajahi Koleksi';
+        applyUniversalImage(document.getElementById('heroBannerImg'), identity.heroBannerUrl, identity.storeName);
+
+        // Menu Navigasi
+        const desktopNav = document.getElementById('headerNav');
+        const mobileNav = document.getElementById('mobileHeaderNav');
+        desktopNav.innerHTML = '';
+        mobileNav.innerHTML = '';
+
+        navItems.forEach((item) => {
+          const aDesk = document.createElement('a');
+          aDesk.href = item.target || '#catalog';
+          aDesk.textContent = item.label;
+          aDesk.className = 'px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100/80 dark:hover:bg-slate-800 transition';
+          desktopNav.appendChild(aDesk);
+
+          const aMob = document.createElement('a');
+          aMob.href = item.target || '#catalog';
+          aMob.textContent = item.label;
+          aMob.className = 'px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 whitespace-nowrap';
+          mobileNav.appendChild(aMob);
+        });
+
+        // Label pemicu Admin di paling bawah footer
+        const adminTriggerLabel = document.getElementById('footerAdminTriggerLabel');
+        if (adminTriggerLabel) {
+          adminTriggerLabel.textContent = isAdmin ? 'Panel Admin Aktif (Kelola)' : 'Akses Admin';
+        }
+
+        const adminPanel = document.getElementById('adminPanelSection');
+        if (isAdmin) {
+          adminPanel.classList.remove('hidden');
+          syncAdminForms();
+        } else {
+          adminPanel.classList.add('hidden');
+        }
+
+        document.getElementById('headerFavCount').textContent = String(favorites.length);
+      }
+
+      /* -------------------------------------------------------------------
+         RENDER KATALOG PELANGGAN
+         ------------------------------------------------------------------- */
+      function getCategoryName(catId) {
+        const found = state.categories.find((c) => c.id === catId);
+        return found ? found.name : 'GALAXY';
+      }
+
+      function renderCategoryBar() {
+        const bar = document.getElementById('categoryFilterBar');
+        bar.innerHTML = '';
+
+        const allBtn = document.createElement('button');
+        allBtn.type = 'button';
+        allBtn.textContent = 'SEMUA';
+        allBtn.className =
+          activeCategory === 'all'
+            ? 'px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-brand-600 text-white whitespace-nowrap shadow-sm'
+            : 'px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-brand-300 whitespace-nowrap transition';
+        allBtn.addEventListener('click', () => {
+          activeCategory = 'all';
+          renderCatalog();
+        });
+        bar.appendChild(allBtn);
+
+        state.categories.forEach((cat) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = cat.name;
+          btn.className =
+            activeCategory === cat.id
+              ? 'px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-brand-600 text-white whitespace-nowrap shadow-sm'
+              : 'px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-brand-300 whitespace-nowrap transition';
+          btn.addEventListener('click', () => {
+            activeCategory = cat.id;
+            renderCatalog();
+          });
+          bar.appendChild(btn);
+        });
+
+        const favToggle = document.getElementById('filterFavToggle');
+        favToggle.className = onlyFavorites
+          ? 'inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 transition'
+          : 'inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-rose-300 transition';
+      }
+
+      function renderCatalog() {
+        renderCategoryBar();
+
+        const q = searchQuery.trim().toLowerCase();
+        let filtered = state.products.filter((prod) => {
+          if (activeCategory !== 'all' && prod.categoryId !== activeCategory) return false;
+          if (onlyFavorites && !favorites.includes(prod.id)) return false;
+          if (!q) return true;
+          const catName = getCategoryName(prod.categoryId).toLowerCase();
+          const variantsStr = (prod.variants || []).join(' ').toLowerCase();
+          return (
+            prod.name.toLowerCase().includes(q) ||
+            (prod.description || '').toLowerCase().includes(q) ||
+            (prod.promo || '').toLowerCase().includes(q) ||
+            catName.includes(q) ||
+            variantsStr.includes(q)
+          );
+        });
+
+        filtered = [...filtered].sort((a, b) => {
+          if (sortBy === 'price-asc') return (Number(a.price) || 0) - (Number(b.price) || 0);
+          if (sortBy === 'price-desc') return (Number(b.price) || 0) - (Number(a.price) || 0);
+          if (sortBy === 'rating-desc') return (Number(b.rating) || 0) - (Number(a.rating) || 0);
+          if (sortBy === 'name-asc') return a.name.localeCompare(b.name, 'id');
+          return 0;
+        });
+
+        const grid = document.getElementById('productGrid');
+        const emptyState = document.getElementById('emptyCatalogState');
+        const summary = document.getElementById('resultSummary');
+        grid.innerHTML = '';
+
+        summary.textContent = `Menampilkan ${filtered.length} dari ${state.products.length} produk`;
+
+        if (filtered.length === 0) {
+          emptyState.classList.remove('hidden');
+          return;
+        }
+        emptyState.classList.add('hidden');
+
+        filtered.forEach((prod) => {
+          const isFav = favorites.includes(prod.id);
+          const card = document.createElement('article');
+          card.className =
+            'group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-card hover:shadow-soft transition overflow-hidden flex flex-col';
+
+          const imgWrap = document.createElement('div');
+          imgWrap.className = 'relative aspect-[4/3] bg-slate-100 dark:bg-slate-800 overflow-hidden cursor-pointer';
+          imgWrap.addEventListener('click', () => openProductModal(prod.id));
+
+          const img = document.createElement('img');
+          img.alt = prod.name;
+          img.className = 'w-full h-full object-cover group-hover:scale-105 transition duration-300';
+          applyUniversalImage(img, prod.imageUrl, prod.name);
+          imgWrap.appendChild(img);
+
+          if (prod.badge) {
+            const badge = document.createElement('span');
+            badge.className = 'absolute top-3 left-3 px-2.5 py-1 rounded-full text-[11px] font-bold bg-brand-600 text-white shadow-sm';
+            badge.textContent = prod.badge;
+            imgWrap.appendChild(badge);
+          }
+
+          const favBtn = document.createElement('button');
+          favBtn.type = 'button';
+          favBtn.setAttribute('aria-label', 'Favoritkan produk');
+          favBtn.className =
+            'absolute top-3 right-3 p-2 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur border border-slate-200/70 dark:border-slate-700 text-rose-500 hover:scale-105 transition';
+          favBtn.innerHTML = isFav
+            ? `<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`
+            : `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>`;
+          favBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(prod.id);
+          });
+          imgWrap.appendChild(favBtn);
+
+          const body = document.createElement('div');
+          body.className = 'p-4 flex-1 flex flex-col justify-between space-y-3';
+
+          const topInfo = document.createElement('div');
+          topInfo.className = 'space-y-1 cursor-pointer';
+          topInfo.addEventListener('click', () => openProductModal(prod.id));
+
+          const metaRow = document.createElement('div');
+          metaRow.className = 'flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400';
+          metaRow.innerHTML = `<span>${getCategoryName(prod.categoryId)}</span><span class="font-semibold text-amber-500">★ ${Number(prod.rating || 4.8).toFixed(1)}</span>`;
+
+          const titleEl = document.createElement('h3');
+          titleEl.className = 'font-bold text-sm sm:text-base text-slate-900 dark:text-white line-clamp-2 group-hover:text-brand-600 transition';
+          titleEl.textContent = prod.name;
+
+          const variantHint = document.createElement('p');
+          variantHint.className = 'text-xs text-slate-500 dark:text-slate-400 truncate';
+          variantHint.textContent =
+            prod.variants && prod.variants.length
+              ? `Varian: ${prod.variants.join(', ')}`
+              : `Stok: ${prod.stock ?? 0}`;
+
+          topInfo.appendChild(metaRow);
+          topInfo.appendChild(titleEl);
+          topInfo.appendChild(variantHint);
+
+          if (prod.promo) {
+            const promoBadge = document.createElement('div');
+            promoBadge.className = 'px-2.5 py-1.5 rounded-xl text-[11px] font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 truncate';
+            promoBadge.textContent = prod.promo;
+            topInfo.appendChild(promoBadge);
+          }
+
+          const bottomRow = document.createElement('div');
+          bottomRow.className = 'pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2';
+
+          const priceWrap = document.createElement('div');
+          const origHtml =
+            Number(prod.originalPrice) > Number(prod.price)
+              ? `<div class="text-[11px] line-through text-slate-400">${formatRupiah(prod.originalPrice)}</div>`
+              : '';
+          priceWrap.innerHTML = `${origHtml}<div class="font-extrabold text-sm sm:text-base text-brand-600 dark:text-brand-400">${formatRupiah(prod.price)}</div>`;
+
+          const defaultVariant = prod.variants && prod.variants.length ? prod.variants[0] : 'Standar';
+          const waBtn = document.createElement('a');
+          waBtn.href = buildWhatsAppOrderUrl(prod, defaultVariant, 1);
+          waBtn.target = '_blank';
+          waBtn.rel = 'noopener noreferrer';
+          waBtn.className = 'px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition shrink-0';
+          waBtn.textContent = 'Pesan WA';
+
+          bottomRow.appendChild(priceWrap);
+          bottomRow.appendChild(waBtn);
+
+          body.appendChild(topInfo);
+          body.appendChild(bottomRow);
+
+          card.appendChild(imgWrap);
+          card.appendChild(body);
+          grid.appendChild(card);
+        });
+      }
+
+      function toggleFavorite(prodId) {
+        const idx = favorites.indexOf(prodId);
+        if (idx >= 0) {
+          favorites.splice(idx, 1);
+          showToast('Dihapus dari Favorit');
+        } else {
+          favorites.push(prodId);
+          showToast('Ditambahkan ke Favorit', 'success');
+        }
+        saveFavorites();
+        renderIdentityAndHeader();
+        renderCatalog();
+        if (modalProductId === prodId) syncModalFavoriteIcon();
+      }
+
+      /* -------------------------------------------------------------------
+         MODAL DETAIL PRODUK (WHATSAPP LANGSUNG)
+         ------------------------------------------------------------------- */
+      function updateModalWhatsAppLink() {
+        if (!modalProductId) return;
+        const prod = state.products.find((p) => p.id === modalProductId);
+        if (!prod) return;
+        document.getElementById('modalOrderWaBtn').href = buildWhatsAppOrderUrl(prod, modalSelectedVariant, modalQty);
+      }
+
+      function openProductModal(prodId) {
+        const prod = state.products.find((p) => p.id === prodId);
+        if (!prod) return;
+
+        modalProductId = prod.id;
+        modalQty = 1;
+        modalSelectedVariant = prod.variants && prod.variants.length ? prod.variants[0] : 'Standar';
+
+        document.getElementById('modalProdCategory').textContent = getCategoryName(prod.categoryId);
+        document.getElementById('modalProdTitle').textContent = prod.name;
+        document.getElementById('modalProdPrice').textContent = formatRupiah(prod.price);
+        document.getElementById('modalProdDesc').textContent = prod.description || '';
+        document.getElementById('modalProdRating').textContent = `★ ${Number(prod.rating || 4.8).toFixed(1)} / 5.0`;
+        document.getElementById('modalProdStock').textContent = `Stok: ${prod.stock ?? 0}`;
+        document.getElementById('modalQtyValue').textContent = '1';
+
+        const origEl = document.getElementById('modalProdOriginalPrice');
+        if (Number(prod.originalPrice) > Number(prod.price)) {
+          origEl.textContent = formatRupiah(prod.originalPrice);
+          origEl.classList.remove('hidden');
+        } else {
+          origEl.classList.add('hidden');
+        }
+
+        const promoEl = document.getElementById('modalProdPromo');
+        if (prod.promo) {
+          promoEl.textContent = `Promo: ${prod.promo}`;
+          promoEl.classList.remove('hidden');
+        } else {
+          promoEl.classList.add('hidden');
+        }
+
+        const badgeEl = document.getElementById('modalProdBadge');
+        if (prod.badge) {
+          badgeEl.textContent = prod.badge;
+          badgeEl.classList.remove('hidden');
+        } else {
+          badgeEl.classList.add('hidden');
+        }
+
+        applyUniversalImage(document.getElementById('modalProdImage'), prod.imageUrl, prod.name);
+
+        const variantList = document.getElementById('modalVariantList');
+        variantList.innerHTML = '';
+        const variants = prod.variants && prod.variants.length ? prod.variants : ['Standar'];
+        variants.forEach((v) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = v;
+          btn.className =
+            v === modalSelectedVariant
+              ? 'px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white'
+              : 'px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700';
+          btn.addEventListener('click', () => {
+            modalSelectedVariant = v;
+            openProductModal(prod.id);
+          });
+          variantList.appendChild(btn);
+        });
+
+        const specsList = document.getElementById('modalProdSpecs');
+        specsList.innerHTML = '';
+        const specs = prod.specs && prod.specs.length ? prod.specs : ['Garansi Resmi Samsung Indonesia'];
+        specs.forEach((s) => {
+          const li = document.createElement('li');
+          li.textContent = s;
+          specsList.appendChild(li);
+        });
+
+        syncModalFavoriteIcon();
+        updateModalWhatsAppLink();
+
+        const modal = document.getElementById('productModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function syncModalFavoriteIcon() {
+        const icon = document.getElementById('modalFavIcon');
+        if (!icon || !modalProductId) return;
+        icon.setAttribute('fill', favorites.includes(modalProductId) ? 'currentColor' : 'none');
+      }
+
+      function closeProductModal() {
+        const modal = document.getElementById('productModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modalProductId = null;
+      }
+
+      /* -------------------------------------------------------------------
+         PANEL ADMIN (SANDI C070041351)
+         ------------------------------------------------------------------- */
+      function openAdminLoginModal() {
+        document.getElementById('adminPasswordInput').value = '';
+        document.getElementById('adminLoginError').classList.add('hidden');
+        const modal = document.getElementById('adminLoginModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => document.getElementById('adminPasswordInput').focus(), 50);
+      }
+
+      function closeAdminLoginModal() {
+        const modal = document.getElementById('adminLoginModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      function switchAdminTab(tabName) {
+        document.querySelectorAll('.admin-tab-btn').forEach((btn) => {
+          const active = btn.dataset.adminTab === tabName;
+          btn.className = active
+            ? 'admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-brand-600 text-white'
+            : 'admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+        });
+        document.querySelectorAll('.admin-tab-panel').forEach((panel) => panel.classList.add('hidden'));
+        const target = document.getElementById(`adminTab-${tabName}`);
+        if (target) target.classList.remove('hidden');
+      }
+
+      function syncAdminForms() {
+        const { identity } = state;
+        document.getElementById('idStoreName').value = identity.storeName || '';
+        document.getElementById('idTagline').value = identity.tagline || '';
+        document.getElementById('idWhatsappPhone').value = identity.whatsappPhone || '6283194288684';
+        document.getElementById('idOpeningHours').value = identity.openingHours || '09:00 - 21:00 WIB';
+        document.getElementById('idHeroCtaText').value = identity.heroCtaText || '';
+        document.getElementById('idMapsUrl').value = identity.mapsUrl || '';
+        document.getElementById('idHeroTitle').value = identity.heroTitle || '';
+        document.getElementById('idHeroSubtitle').value = identity.heroSubtitle || '';
+        document.getElementById('idAddress').value = identity.address || '';
+        document.getElementById('idInstagramUrl').value = identity.instagramUrl || '';
+        document.getElementById('idTiktokUrl').value = identity.tiktokUrl || '';
+        document.getElementById('idThreadsUrl').value = identity.threadsUrl || '';
+
+        document.getElementById('mediaLogoUrl').value = identity.logoUrl || '';
+        applyUniversalImage(document.getElementById('mediaLogoPreview'), identity.logoUrl, identity.storeName, (info) => {
+          document.getElementById('mediaLogoStatus').textContent = `Tipe: ${info.sourceType} | ${info.isFallback ? 'Fallback SVG' : 'Dimuat'}`;
+        });
+
+        document.getElementById('mediaHeroUrl').value = identity.heroBannerUrl || '';
+        applyUniversalImage(document.getElementById('mediaHeroPreview'), identity.heroBannerUrl, identity.storeName, (info) => {
+          document.getElementById('mediaHeroStatus').textContent = `Tipe: ${info.sourceType} | ${info.isFallback ? 'Fallback SVG' : 'Dimuat'}`;
+        });
+
+        renderAdminNavList();
+        renderAdminCategoryList();
+        populateProductCategorySelect();
+        renderAdminProductList();
+      }
+
+      function renderAdminNavList() {
+        const wrap = document.getElementById('adminNavList');
+        wrap.innerHTML = '';
+        state.navItems.forEach((nav, idx) => {
+          const row = document.createElement('div');
+          row.className = 'flex flex-col sm:flex-row sm:items-center gap-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700';
+
+          const labelInp = document.createElement('input');
+          labelInp.type = 'text';
+          labelInp.value = nav.label;
+          labelInp.className = 'sm:w-1/3 px-3 py-1.5 rounded-lg text-xs sm:text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700';
+
+          const targetInp = document.createElement('input');
+          targetInp.type = 'text';
+          targetInp.value = nav.target;
+          targetInp.className = 'flex-1 px-3 py-1.5 rounded-lg text-xs sm:text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700';
+
+          const actions = document.createElement('div');
+          actions.className = 'flex items-center gap-1.5 justify-end';
+
+          const saveBtn = document.createElement('button');
+          saveBtn.type = 'button';
+          saveBtn.textContent = 'Simpan';
+          saveBtn.className = 'px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 text-white';
+          saveBtn.addEventListener('click', () => {
+            nav.label = labelInp.value.trim() || nav.label;
+            nav.target = targetInp.value.trim() || '#catalog';
+            saveState();
+            renderIdentityAndHeader();
+            showToast('Menu diperbarui', 'success');
+          });
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.textContent = 'Hapus';
+          delBtn.className = 'px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300';
+          delBtn.addEventListener('click', () => {
+            state.navItems.splice(idx, 1);
+            saveState();
+            renderIdentityAndHeader();
+            showToast('Menu dihapus');
+          });
+
+          actions.appendChild(saveBtn);
+          actions.appendChild(delBtn);
+          row.appendChild(labelInp);
+          row.appendChild(targetInp);
+          row.appendChild(actions);
+          wrap.appendChild(row);
+        });
+      }
+
+      function renderAdminCategoryList() {
+        const wrap = document.getElementById('adminCategoryList');
+        wrap.innerHTML = '';
+        state.categories.forEach((cat, idx) => {
+          const card = document.createElement('div');
+          card.className = 'p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-2';
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = cat.name;
+          input.className = 'w-full px-3 py-2 rounded-xl text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700';
+
+          const btnRow = document.createElement('div');
+          btnRow.className = 'flex items-center justify-end gap-1.5';
+
+          const saveBtn = document.createElement('button');
+          saveBtn.type = 'button';
+          saveBtn.textContent = 'Simpan';
+          saveBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-brand-600 text-white';
+          saveBtn.addEventListener('click', () => {
+            const val = input.value.trim();
+            if (!val) return;
+            cat.name = val;
+            saveState();
+            populateProductCategorySelect();
+            renderCatalog();
+            showToast('Kategori diperbarui', 'success');
+          });
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.textContent = 'Hapus';
+          delBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300';
+          delBtn.addEventListener('click', () => {
+            state.categories.splice(idx, 1);
+            if (activeCategory === cat.id) activeCategory = 'all';
+            saveState();
+            renderAdminCategoryList();
+            populateProductCategorySelect();
+            renderCatalog();
+            showToast('Kategori dihapus');
+          });
+
+          btnRow.appendChild(saveBtn);
+          btnRow.appendChild(delBtn);
+          card.appendChild(input);
+          card.appendChild(btnRow);
+          wrap.appendChild(card);
+        });
+      }
+
+      function populateProductCategorySelect() {
+        const sel = document.getElementById('prodCategory');
+        sel.innerHTML = '';
+        state.categories.forEach((cat) => {
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.name;
+          sel.appendChild(opt);
+        });
+      }
+
+      function resetProductForm() {
+        document.getElementById('prodId').value = '';
+        document.getElementById('productForm').reset();
+        document.getElementById('productFormTitle').textContent = 'Tambah Produk Baru';
+        document.getElementById('productSubmitBtn').textContent = 'Simpan Produk';
+        document.getElementById('cancelEditProductBtn').classList.add('hidden');
+        if (state.categories.length) {
+          document.getElementById('prodCategory').value = state.categories[0].id;
+        }
+        applyUniversalImage(document.getElementById('prodImagePreview'), '', 'Pratinjau Produk');
+      }
+
+      function startEditProduct(prodId) {
+        const prod = state.products.find((p) => p.id === prodId);
+        if (!prod) return;
+        document.getElementById('prodId').value = prod.id;
+        document.getElementById('prodName').value = prod.name;
+        document.getElementById('prodCategory').value = prod.categoryId;
+        document.getElementById('prodBadge').value = prod.badge || '';
+        document.getElementById('prodPrice').value = prod.price;
+        document.getElementById('prodOriginalPrice').value = prod.originalPrice || '';
+        document.getElementById('prodStock').value = prod.stock ?? 0;
+        document.getElementById('prodRating').value = prod.rating ?? 4.9;
+        document.getElementById('prodVariants').value = (prod.variants || []).join(', ');
+        document.getElementById('prodPromo').value = prod.promo || '';
+        document.getElementById('prodDesc').value = prod.description || '';
+        document.getElementById('prodSpecs').value = (prod.specs || []).join('\n');
+        document.getElementById('prodImageUrl').value = prod.imageUrl || '';
+
+        document.getElementById('productFormTitle').textContent = `Edit Produk: ${prod.name}`;
+        document.getElementById('productSubmitBtn').textContent = 'Perbarui Produk';
+        document.getElementById('cancelEditProductBtn').classList.remove('hidden');
+
+        applyUniversalImage(document.getElementById('prodImagePreview'), prod.imageUrl, prod.name, (info) => {
+          document.getElementById('prodImageStatus').textContent = `Tipe: ${info.sourceType}${info.driveId ? ` (Drive ID: ${info.driveId})` : ''} | ${info.isFallback ? 'Fallback SVG' : 'Berhasil dimuat'}`;
+        });
+
+        switchAdminTab('products');
+        document.getElementById('adminPanelSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function renderAdminProductList() {
+        const wrap = document.getElementById('adminProductList');
+        document.getElementById('adminProductCount').textContent = String(state.products.length);
+        wrap.innerHTML = '';
+
+        state.products.forEach((prod) => {
+          const card = document.createElement('div');
+          card.className = 'p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex gap-3.5 items-center';
+
+          const img = document.createElement('img');
+          img.alt = prod.name;
+          img.className = 'w-20 h-20 rounded-xl object-cover bg-slate-100 dark:bg-slate-800 shrink-0';
+          applyUniversalImage(img, prod.imageUrl, prod.name);
+
+          const info = document.createElement('div');
+          info.className = 'flex-1 min-w-0';
+          info.innerHTML = `
+            <div class="text-[11px] text-brand-600 dark:text-brand-400 font-semibold">${getCategoryName(prod.categoryId)}</div>
+            <div class="font-bold text-sm truncate">${prod.name}</div>
+            <div class="text-xs font-semibold text-slate-700 dark:text-slate-200">${formatRupiah(prod.price)} • Stok: ${prod.stock ?? 0}</div>
+            <div class="text-[11px] text-slate-400 truncate">${prod.imageUrl || 'SVG Fallback'}</div>
+          `;
+
+          const btns = document.createElement('div');
+          btns.className = 'flex flex-col gap-1.5 shrink-0';
+
+          const editBtn = document.createElement('button');
+          editBtn.type = 'button';
+          editBtn.textContent = 'Edit';
+          editBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300';
+          editBtn.addEventListener('click', () => startEditProduct(prod.id));
+
+          const dupBtn = document.createElement('button');
+          dupBtn.type = 'button';
+          dupBtn.textContent = 'Duplikat';
+          dupBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800';
+          dupBtn.addEventListener('click', () => {
+            state.products.unshift({ ...prod, id: uid('prod'), name: `${prod.name} (Salinan)` });
+            saveState();
+            renderAdminProductList();
+            renderCatalog();
+            showToast('Produk diduplikasi', 'success');
+          });
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.textContent = 'Hapus';
+          delBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300';
+          delBtn.addEventListener('click', () => {
+            state.products = state.products.filter((p) => p.id !== prod.id);
+            saveState();
+            renderAdminProductList();
+            renderCatalog();
+            showToast('Produk dihapus');
+          });
+
+          btns.appendChild(editBtn);
+          btns.appendChild(dupBtn);
+          btns.appendChild(delBtn);
+
+          card.appendChild(img);
+          card.appendChild(info);
+          card.appendChild(btns);
+          wrap.appendChild(card);
+        });
+      }
+
+      /* -------------------------------------------------------------------
+         EVENT BINDINGS
+         ------------------------------------------------------------------- */
+      function bindEvents() {
+        const syncSearch = (val) => {
+          searchQuery = val;
+          document.getElementById('desktopSearchInput').value = val;
+          document.getElementById('mobileSearchInput').value = val;
+          renderCatalog();
+        };
+        document.getElementById('desktopSearchInput').addEventListener('input', (e) => syncSearch(e.target.value));
+        document.getElementById('mobileSearchInput').addEventListener('input', (e) => syncSearch(e.target.value));
+        document.getElementById('mobileSearchToggle').addEventListener('click', () => {
+          document.getElementById('mobileSearchBar').classList.toggle('hidden');
+        });
+
+        const toggleFavFilter = () => {
+          onlyFavorites = !onlyFavorites;
+          renderCatalog();
+        };
+        document.getElementById('filterFavToggle').addEventListener('click', toggleFavFilter);
+        document.getElementById('headerFavBtn').addEventListener('click', toggleFavFilter);
+
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+          sortBy = e.target.value;
+          renderCatalog();
+        });
+
+        document.getElementById('resetFilterBtn').addEventListener('click', () => {
+          activeCategory = 'all';
+          onlyFavorites = false;
+          searchQuery = '';
+          sortBy = 'featured';
+          document.getElementById('desktopSearchInput').value = '';
+          document.getElementById('mobileSearchInput').value = '';
+          document.getElementById('sortSelect').value = 'featured';
+          renderCatalog();
+        });
+
+        // Modal Produk
+        document.getElementById('closeProductModalBtn').addEventListener('click', closeProductModal);
+        document.getElementById('productModal').addEventListener('click', (e) => {
+          if (e.target.id === 'productModal') closeProductModal();
+        });
+        document.getElementById('modalQtyMinus').addEventListener('click', () => {
+          if (modalQty > 1) {
+            modalQty -= 1;
+            document.getElementById('modalQtyValue').textContent = String(modalQty);
+            updateModalWhatsAppLink();
+          }
+        });
+        document.getElementById('modalQtyPlus').addEventListener('click', () => {
+          modalQty += 1;
+          document.getElementById('modalQtyValue').textContent = String(modalQty);
+          updateModalWhatsAppLink();
+        });
+        document.getElementById('modalFavBtn').addEventListener('click', () => {
+          if (modalProductId) toggleFavorite(modalProductId);
+        });
+
+        // Pemicu Akses Mode Admin di Bagian Paling Bawah Footer
+        const handleAdminTrigger = () => {
+          if (isAdmin) {
+            const panel = document.getElementById('adminPanelSection');
+            panel.classList.toggle('hidden');
+            if (!panel.classList.contains('hidden')) {
+              panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          } else {
+            openAdminLoginModal();
+          }
+        };
+
+        document.getElementById('footerAdminTrigger').addEventListener('click', handleAdminTrigger);
+        document.addEventListener('keydown', (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.shiftKey && String(e.key).toLowerCase() === 'a') {
+            e.preventDefault();
+            handleAdminTrigger();
+          }
+        });
+
+        document.getElementById('adminExitBtn').addEventListener('click', () => {
+          isAdmin = false;
+          sessionStorage.removeItem(ADMIN_SESSION_KEY);
+          renderIdentityAndHeader();
+          showToast('Panel Admin ditutup');
+        });
+
+        document.getElementById('closeAdminLoginBtn').addEventListener('click', closeAdminLoginModal);
+        document.getElementById('adminLoginModal').addEventListener('click', (e) => {
+          if (e.target.id === 'adminLoginModal') closeAdminLoginModal();
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const pass = document.getElementById('adminPasswordInput').value.trim();
+          if (pass === ADMIN_PASSCODE) {
+            isAdmin = true;
+            sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+            closeAdminLoginModal();
+            renderIdentityAndHeader();
+            showToast('Mode Admin aktif', 'success');
+            document.getElementById('adminPanelSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            document.getElementById('adminLoginError').classList.remove('hidden');
+          }
+        });
+
+        // Tab Admin
+        document.querySelectorAll('.admin-tab-btn').forEach((btn) => {
+          btn.addEventListener('click', () => switchAdminTab(btn.dataset.adminTab));
+        });
+
+        // Form Identitas & Menu
+        document.getElementById('identityForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          state.identity.storeName = document.getElementById('idStoreName').value.trim() || 'Samsung Store BTM by Blibli';
+          state.identity.tagline = document.getElementById('idTagline').value.trim();
+          state.identity.whatsappPhone = document.getElementById('idWhatsappPhone').value.trim() || '6283194288684';
+          state.identity.openingHours = document.getElementById('idOpeningHours').value.trim() || '09:00 - 21:00 WIB';
+          state.identity.heroCtaText = document.getElementById('idHeroCtaText').value.trim() || 'Jelajahi Koleksi';
+          state.identity.mapsUrl = document.getElementById('idMapsUrl').value.trim();
+          state.identity.heroTitle = document.getElementById('idHeroTitle').value.trim();
+          state.identity.heroSubtitle = document.getElementById('idHeroSubtitle').value.trim();
+          state.identity.address = document.getElementById('idAddress').value.trim();
+          state.identity.instagramUrl = document.getElementById('idInstagramUrl').value.trim();
+          state.identity.tiktokUrl = document.getElementById('idTiktokUrl').value.trim();
+          state.identity.threadsUrl = document.getElementById('idThreadsUrl').value.trim();
+          saveState();
+          renderIdentityAndHeader();
+          renderCatalog();
+          showToast('Identitas & kontak tersimpan', 'success');
+        });
+
+        document.getElementById('navAddForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const label = document.getElementById('newNavLabel').value.trim();
+          const target = document.getElementById('newNavTarget').value.trim();
+          if (!label || !target) return;
+          state.navItems.push({ id: uid('nav'), label, target });
+          saveState();
+          document.getElementById('newNavLabel').value = '';
+          document.getElementById('newNavTarget').value = '';
+          renderIdentityAndHeader();
+          showToast('Menu ditambahkan', 'success');
+        });
+
+        // Form Kategori
+        document.getElementById('categoryAddForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('newCategoryName').value.trim();
+          if (!name) return;
+          state.categories.push({ id: uid('cat'), name });
+          saveState();
+          document.getElementById('newCategoryName').value = '';
+          renderAdminCategoryList();
+          populateProductCategorySelect();
+          renderCatalog();
+          showToast('Kategori ditambahkan', 'success');
+        });
+
+        // Form Produk & Gambar
+        const prodImgInput = document.getElementById('prodImageUrl');
+        const prodImgFile = document.getElementById('prodImageFile');
+
+        const updateProdPreview = () => {
+          applyUniversalImage(
+            document.getElementById('prodImagePreview'),
+            prodImgInput.value,
+            document.getElementById('prodName').value || 'Samsung Store BTM',
+            (info) => {
+              document.getElementById('prodImageStatus').textContent = info.isFallback
+                ? `Fallback SVG aktif (${info.sourceType}). Pastikan link Drive publik atau masukkan URL/file valid.`
+                : `Berhasil memuat (${info.sourceType}${info.driveId ? ` • ID: ${info.driveId}` : ''})`;
+            }
+          );
+        };
+
+        prodImgInput.addEventListener('input', updateProdPreview);
+        document.getElementById('prodTestImageBtn').addEventListener('click', () => {
+          updateProdPreview();
+          showToast('Memeriksa sumber gambar...');
+        });
+
+        prodImgFile.addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            prodImgInput.value = String(reader.result || '');
+            updateProdPreview();
+            showToast(`File "${file.name}" dimuat`, 'success');
+          };
+          reader.readAsDataURL(file);
+        });
+
+        document.getElementById('cancelEditProductBtn').addEventListener('click', resetProductForm);
+
+        document.getElementById('productForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const id = document.getElementById('prodId').value;
+          const payload = {
+            id: id || uid('prod'),
+            name: document.getElementById('prodName').value.trim(),
+            categoryId: document.getElementById('prodCategory').value,
+            badge: document.getElementById('prodBadge').value.trim(),
+            price: Number(document.getElementById('prodPrice').value) || 0,
+            originalPrice: Number(document.getElementById('prodOriginalPrice').value) || 0,
+            stock: Number(document.getElementById('prodStock').value) || 0,
+            rating: Math.min(5, Math.max(1, Number(document.getElementById('prodRating').value) || 4.9)),
+            variants: document
+              .getElementById('prodVariants')
+              .value.split(',')
+              .map((s) => s.trim())
+              .filter(Boolean),
+            promo: document.getElementById('prodPromo').value.trim(),
+            description: document.getElementById('prodDesc').value.trim(),
+            specs: document
+              .getElementById('prodSpecs')
+              .value.split('\n')
+              .map((s) => s.trim())
+              .filter(Boolean),
+            imageUrl: document.getElementById('prodImageUrl').value.trim(),
+          };
+
+          if (id) {
+            const idx = state.products.findIndex((p) => p.id === id);
+            if (idx >= 0) state.products[idx] = payload;
+            showToast('Produk diperbarui', 'success');
+          } else {
+            state.products.unshift(payload);
+            showToast('Produk ditambahkan', 'success');
+          }
+
+          saveState();
+          resetProductForm();
+          renderAdminProductList();
+          renderCatalog();
+        });
+
+        // Media Logo & Banner
+        document.getElementById('mediaLogoFile').addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            document.getElementById('mediaLogoUrl').value = String(reader.result || '');
+            applyUniversalImage(document.getElementById('mediaLogoPreview'), reader.result, state.identity.storeName);
+          };
+          reader.readAsDataURL(file);
+        });
+
+        document.getElementById('mediaLogoApplyBtn').addEventListener('click', () => {
+          state.identity.logoUrl = document.getElementById('mediaLogoUrl').value.trim();
+          saveState();
+          renderIdentityAndHeader();
+          syncAdminForms();
+          showToast('Logo toko diperbarui', 'success');
+        });
+
+        document.getElementById('mediaHeroFile').addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            document.getElementById('mediaHeroUrl').value = String(reader.result || '');
+            applyUniversalImage(document.getElementById('mediaHeroPreview'), reader.result, state.identity.storeName);
+          };
+          reader.readAsDataURL(file);
+        });
+
+        document.getElementById('mediaHeroApplyBtn').addEventListener('click', () => {
+          state.identity.heroBannerUrl = document.getElementById('mediaHeroUrl').value.trim();
+          saveState();
+          renderIdentityAndHeader();
+          syncAdminForms();
+          showToast('Hero Banner diperbarui', 'success');
+        });
+
+        // Cadangan JSON
+        document.getElementById('exportJsonBtn').addEventListener('click', () => {
+          const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `samsung-btm-catalog-${new Date().toISOString().slice(0, 10)}.json`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          showToast('Cadangan JSON diunduh', 'success');
+        });
+
+        document.getElementById('importJsonInput').addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            try {
+              const parsed = JSON.parse(String(reader.result || '{}'));
+              const def = getDefaultState();
+              state = {
+                identity: { ...def.identity, ...(parsed.identity || {}) },
+                navItems: Array.isArray(parsed.navItems) && parsed.navItems.length ? parsed.navItems : def.navItems,
+                categories: Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : def.categories,
+                products: Array.isArray(parsed.products) ? parsed.products : def.products,
+              };
+              saveState();
+              renderIdentityAndHeader();
+              renderCatalog();
+              showToast('Data JSON berhasil diimpor', 'success');
+            } catch {
+              showToast('Berkas JSON tidak valid', 'error');
+            }
+          };
+          reader.readAsText(file);
+        });
+
+        document.getElementById('resetDefaultBtn').addEventListener('click', () => {
+          state = getDefaultState();
+          saveState();
+          renderIdentityAndHeader();
+          renderCatalog();
+          showToast('Dikembalikan ke data bawaan', 'success');
+        });
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        bindEvents();
+        renderIdentityAndHeader();
+        renderCatalog();
+        resetProductForm();
+      });
+    })();
+  </script>
+</body>
+</html>
+```
